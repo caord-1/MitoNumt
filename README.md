@@ -2,11 +2,11 @@
 Overview
 
 This pipeline provides a practical and reproducible workflow to accurately get true NUMT (nuclear mitochondrial DNA segments) and mitochondrial (mtDNA) sequences from PacBio HiFi sequencing data.
+requirements
+**python3 minimap2 samtools mafft igv**
 
-Step 1. Identification of candidate NUMT regions in the nuclear genome
+**Step 1. Identification of candidate NUMT regions in the nuclear genome**
 Input requirements
-
-python3 minimap2 samtools mafft igv
 
 Mitochondrial reference genome (ref_mt.fa)
 
@@ -20,15 +20,15 @@ The resulting PAF file is then inspected to extract nuclear regions showing sign
 
    <img width="1667" height="197" alt="image" src="https://github.com/user-attachments/assets/bb012dc2-2b8c-48c7-a393-0f418c9d0ff8" />
 
-Step 2. Extraction of reference NUMT regions
+**Step 2. Extraction of reference NUMT regions**
 
-Strategy 1: Extended flanking regions (recommended for detecting complete or near-complete NUMTs)
+*Strategy 1*: Extended flanking regions (recommended for detecting complete or near-complete NUMTs)
 
 To get potentially full-length NUMTs, the candidate NUMT region is extended by 2 kb upstream and downstream from the alignment coordinates:
    
 	  samtools faidx ./ref_genomic.fna CM101310.1:68556902-685561280 > CM101310.1.68556902-68561280.fa
 
-Step 3. Retrieval of NUMT-associated HiFi reads
+**Step 3. Retrieval of NUMT-associated HiFi reads**
 
     minimap2 -t 16 --secondary=no -ax map-hifi ./CM101310.1.68556902-68561280.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o reads.HiFiMapped.bam
    
@@ -36,7 +36,7 @@ Step 3. Retrieval of NUMT-associated HiFi reads
    
     samtools index -@ 16 reads.HiFiMapped.sorted.bam
 
-Step 4. Read selection and visualization (optional but recommended)
+**Step 4. Read selection and visualization (optional but recommended)**
 
 The sorted BAM file can be visualized in IGV to manually inspect read alignments.
 
@@ -53,7 +53,7 @@ such as:
 
 
    
-Step 5. Get NUMT sequence 
+**Step 5. Get NUMT sequence**
     
 	cat ref_mt.fa selected.HIFI.reads.fa > selected.numt-mt.fa
 
@@ -61,13 +61,13 @@ Step 5. Get NUMT sequence
 
 
 
-Strategy 2: No extension (recommended for rapid detection of more none-complete NUMTs)
+*Strategy 2*: No extension (recommended for rapid detection of more none-complete NUMTs)
 
 For rapid screening of short NUMTs, only the aligned region is extracted without flanking extension:
  
     samtools faidx ./ref_genomic.fna CM101310.1:68558902-68559280 > CM101310.1.68558902-68559280.fa
 
-Step 3. Retrieval of NUMT-associated HiFi reads
+**Step 3**. Retrieval of NUMT-associated HiFi reads
 
      minimap2 -t 16 --secondary=no -ax map-hifi ./CM101310.1.68558902-68559280.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o reads.HiFiMapped.bam
    
@@ -86,7 +86,7 @@ Step 3. Retrieval of NUMT-associated HiFi reads
 
 *.numt.high98.trim.fa — trimmed high-identity regions
 
- Step 4. Consensus NUMT sequence reconstruction
+**Step 4. Consensus NUMT sequence reconstruction**
 
 The trimmed NUMT reads are combined with the mitochondrial reference and aligned
    
@@ -97,12 +97,12 @@ The trimmed NUMT reads are combined with the mitochondrial reference and aligned
      python3 ./script/numt_consensus_from_msa.py CM101310.1.68558902-68559280.numt.high98.trim-mt.mafft.fa ref_mt CM101310.1.68558902-68559280.numt
 
 
-Final output:
+**Final output:**
 
-CM101310.1.68558902-68559280.numt.fa
+**CM101310.1.68558902-68559280.numt.fa**
 
 
-Get the true mitochondrial sequence
+**Get the true mitochondrial sequence**
 
 To recover the mitochondrial genome, the same workflow can be applied by replacing the nuclear NUMT reference with the mitochondrial reference, while keeping all other steps unchanged.
 
