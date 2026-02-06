@@ -104,7 +104,7 @@ The trimmed NUMT reads are combined with the mitochondrial reference and aligned
 
 **Get the true mitochondrial sequence**
 
-To recover the mitochondrial genome, the same workflow can be applied by replacing the nuclear NUMT reference with the mitochondrial reference, while keeping all other steps unchanged.
+To get the true mitochondrial genome, the same workflow can be applied by replacing the nuclear NUMT reference with the mitochondrial reference, while keeping all other steps unchanged.
 
    
 
