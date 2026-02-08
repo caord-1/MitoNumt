@@ -107,9 +107,19 @@ The trimmed NUMT reads are combined with the mitochondrial reference and aligned
 
 To get the true mitochondrial genome, the same workflow can be applied by replacing the nuclear NUMT reference with the mitochondrial reference, while keeping all other steps unchanged.
 
-**Step 4. Check the Consensus NUMT sequence**
+**Step 5. Check the Consensus NUMT sequence**
 
+cat all numt sequences at  numts.fa
 
+    python ./script/numt_diff_dedup_summary.py -n numts.fa -r ../PP646880.1.fa -o snow_leopard
+
+we will get two file snow_leopard.diff_matrix.tsv snow_leopard.summary.tsv
+
+**Step 6. Check the NUMT base in MT sequence**
+
+need merge all mt sequence
+
+python ./script/detect_mt_numt_contamination.py -m 157.ncbi.sequence.re_circularized_PP646880.2.fas -n snow_leopard.36.numts.fas -o snow_leopard
 
 
 
