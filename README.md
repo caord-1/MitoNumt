@@ -106,5 +106,12 @@ The trimmed NUMT reads are combined with the mitochondrial reference and aligned
 
 To get the true mitochondrial genome, the same workflow can be applied by replacing the nuclear NUMT reference with the mitochondrial reference, while keeping all other steps unchanged.
 
+**Step 4. Check the Consensus NUMT sequence**
+
+
+
+
+
+
    
 
