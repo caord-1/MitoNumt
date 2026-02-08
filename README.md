@@ -3,6 +3,7 @@ Overview
 
 This pipeline provides a practical and reproducible workflow to accurately get true NUMT (nuclear mitochondrial DNA segments) and mitochondrial (mtDNA) sequences from PacBio HiFi sequencing data.
 requirements
+
 **python3 minimap2 samtools mafft igv**
 
 **Step 1. Identification of candidate NUMT regions in the nuclear genome**
