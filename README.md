@@ -95,21 +95,24 @@ The trimmed NUMT reads are combined with the mitochondrial reference and aligned
 
      mafft --auto  CM101310.1.68558902-68559280.numt.high98.trim.mt.fa > CM101310.1.68558902-68559280.numt.high98.trim-mt.mafft.fa
    
-     python3 ./script/numt_consensus_from_msa.py CM101310.1.68558902-68559280.numt.high98.trim-mt.mafft.fa ref_mt CM101310.1.68558902-68559280.numt
+     python3 ./script/numt_consensus_from_msa.py CM101310.1.68558902-68559280.numt.high98.trim-mt.mafft.fa ref_mt Panthera_pardus.numt
 
 
 **Final output:**
 
-**CM101310.1.68558902-68559280.numt.fa**
+**Panthera_pardus.numt.2597-4082.fa**
 
+2597-4082 is the start-end at ref_mt.fa
 
 **Get the true mitochondrial sequence**
 
 To get the true mitochondrial genome, the same workflow can be applied by replacing the nuclear NUMT reference with the mitochondrial reference, while keeping all other steps unchanged.
 
-**Step 5. Check the Consensus NUMT sequence**
+**Step 5.  the NUMT sequence**
 
-cat all numt sequences at  numts.fa
+    cat Panthera_pardus.numt.* > Panthera_pardus.numts.fa
+	
+	python numt_ref_dif.py -n numts2.fa -r ../KJ866876.1.fa -o leopard
 
     python ./script/numt_diff_dedup_summary.py -n numts.fa -r ../PP646880.1.fa -o snow_leopard
 
