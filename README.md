@@ -112,9 +112,9 @@ To get the true mitochondrial genome, the same workflow can be applied by replac
 
     cat Panthera_pardus.numt.* > Panthera_pardus.numts.fa
 	
-	python numt_ref_dif.py -n numts2.fa -r ../KJ866876.1.fa -o leopard
+	python numt_ref_dif.py -n numts2.fa -r ../ref_mt.fa -o leopard
 
-    python ./script/numt_diff_dedup_summary.py -n numts.fa -r ../PP646880.1.fa -o snow_leopard
+    bash filter_numt_results.sh -n jaguar.summary.tsv -m jaguar.diff_matrix.tsv -o jaguar
 
 we will get two file snow_leopard.diff_matrix.tsv snow_leopard.summary.tsv
 
