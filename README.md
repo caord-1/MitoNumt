@@ -15,7 +15,7 @@ HIFI reads (HIFI_subreads.fastq.gz)
 
 **Step 1. Get the true mitochondrial sequence**
 
-Align the HIFI data to the mitochondrial genome
+1.1 Align the HIFI data to the mitochondrial genome
 
     minimap2 -t 16 --secondary=no -ax map-hifi ./ref_mt.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o mt.reads.HiFiMapped.bam
    
@@ -23,7 +23,7 @@ Align the HIFI data to the mitochondrial genome
    
     samtools index -@ 16 mt.reads.HiFiMapped.sorted.bam
 
-**Step 2. Reads selection and visualization (optional but recommended)**
+1.2 Reads selection and visualization (optional but recommended)
 
 The sorted BAM file can be visualized in IGV to manually inspect read alignments.
 
@@ -38,10 +38,10 @@ Reads with higher alignment rate and continuity are preferred. such as SRR285329
 Next, we will compare the selected 3-4 reads with the reference sequence, and then perform visualization and correction in Mega. This will enable us to obtain the True mitochondrial sequence (True_ref_mt.fa).
 
 
-**Step 3. Identification of candidate NUMT regions in the nuclear genome**
+**Step 2. Identification of candidate NUMT regions in the nuclear genome**
 
 
-Candidate NUMT loci are identified by aligning the True_mitochondrial genome to the nuclear genome using minimap2:
+2.1 Candidate NUMT loci are identified by aligning the True_mitochondrial genome to the nuclear genome using minimap2:
 
     minimap2 -x asm5 ./True_ref_mt.fa ./ref_genomic.fna > *.paf
 
@@ -49,7 +49,7 @@ The resulting PAF file is then inspected to extract nuclear regions showing sign
 
    <img width="1667" height="197" alt="image" src="https://github.com/user-attachments/assets/bb012dc2-2b8c-48c7-a393-0f418c9d0ff8" />
 
-**Step 4. Extraction of reference NUMT regions**
+2.2 Extraction of reference NUMT regions
 
 *Strategy 1*: Extended flanking regions (recommended for detecting complete or near-complete NUMTs)
 
@@ -57,7 +57,7 @@ To get potentially full-length NUMTs, the candidate NUMT region is extended by 2
    
 	  samtools faidx ./ref_genomic.fna CM101310.1:68556902-685561280 > CM101310.1.68556902-68561280.fa
 
-**Step 5. Retrieval of NUMT-associated HiFi reads**
+2.2.1 Retrieval of NUMT-associated HiFi reads
 
     minimap2 -t 16 --secondary=no -ax map-hifi ./CM101310.1.68556902-68561280.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o numt.reads.HiFiMapped.bam
    
@@ -65,7 +65,7 @@ To get potentially full-length NUMTs, the candidate NUMT region is extended by 2
    
     samtools index -@ 16 numt.reads.HiFiMapped.sorted.bam
 
-**Step 6. Read selection and visualization (optional but recommended)**
+2.2.2 Read selection and visualization (optional but recommended)
 
 The sorted BAM file can be visualized in IGV to manually inspect read alignments.
 
@@ -82,7 +82,7 @@ such as:
 
 
    
-**Step 7. Get NUMT sequence**
+2.2.3 Get NUMT sequence
     
 	cat True_ref_mt.fa selected.HIFI.reads.fa > selected.numt-mt.fa
 
@@ -92,11 +92,11 @@ generate the complete.numt.fa
 
 *Strategy 2*: No extension (recommended for rapid detection of more none-complete NUMTs)
 
-**Step 4**For rapid screening of short NUMTs, only the aligned region is extracted without flanking extension:
+2.2.1 For rapid screening of short NUMTs, only the aligned region is extracted without flanking extension:
  
     samtools faidx ./ref_genomic.fna CM101310.1:68558902-68559280 > CM101310.1.68558902-68559280.fa
 
-**Step 5**. Retrieval of NUMT-associated HiFi reads
+2.2.2 Retrieval of NUMT-associated HiFi reads
 
      minimap2 -t 16 --secondary=no -ax map-hifi ./CM101310.1.68558902-68559280.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o numt.reads.HiFiMapped.bam
    
@@ -114,7 +114,7 @@ generate the complete.numt.fa
 
 *.numt.high98.trim.fa — trimmed high-identity regions
 
-**Step 6. Consensus NUMT sequence reconstruction**
+2.2.3 Consensus NUMT sequence reconstruction**
 
 The trimmed NUMT reads are combined with the mitochondrial reference and aligned
    
@@ -131,7 +131,7 @@ The trimmed NUMT reads are combined with the mitochondrial reference and aligned
 
 Perform 4-6 operations on each small segment, and this will result in numerous numt sequences.
 
-**Step 7.  Collect all the information of the numt sequences**
+2.2.4  Collect all the information of the numt sequences**
 
     cat *.numt.* complete.numt.fa > numts.fa
 
@@ -147,7 +147,11 @@ cat all_mt_sequence True_ref.mt.fa complete.numt.fa > prefix.fa
 
 mafft --auto prefix.fa > prefix.mafft.fa
 
-python ./script/numt_from_msa.py prefix.mafft.fa True_ref.mt complete.numt final
+python ./script/numt_from_msa.py prefix.mafft.fa True_ref.mt True.numt final
+
+
+
+
 
 
 
