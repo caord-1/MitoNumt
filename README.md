@@ -147,7 +147,9 @@ cat all_mt_sequence True_ref.mt.fa complete.numt.fa > prefix.fa
 
 mafft --auto prefix.fa > prefix.mafft.fa
 
-python ./script/numt_from_msa.py prefix.mafft.fa True_ref.mt True.numt final
+python remove_ref_gap_columns.py prefix.mafft.fa ref_name prefix.mafft.no_gap.fa
+
+python ./script/numt_from_msa.py prefix.mafft.no_gap.fa True_ref.mt True.numt final
 
 
 
