@@ -23,7 +23,6 @@ import sys
 
 
 # ----------------------
-# 参数
 # ----------------------
 if len(sys.argv) != 4:
     sys.exit("Usage: python numt_consensus_from_msa.py aln.fa ref_name output_prefix")
@@ -33,7 +32,6 @@ aln_fa, ref_name, output = sys.argv[1:4]
 VALID = {"A", "C", "G", "T", "-"}
 
 # ----------------------
-# 读取 MSA
 # ----------------------
 seqs = {}
 for rec in SeqIO.parse(aln_fa, "fasta"):
@@ -48,7 +46,6 @@ numt_seqs = [s for k, s in seqs.items() if k != ref_name]
 aln_len = len(ref)
 
 # ----------------------
-# 计算 ref 实际坐标（gap 不计）
 # ----------------------
 ref_coord = []
 pos = 0
@@ -60,14 +57,13 @@ for b in ref:
         ref_coord.append(None)
 
 # ----------------------
-# 构建 NUMT 共识（alignment 坐标）
 # ----------------------
 consensus = []
 
 for i in range(aln_len):
     r = ref[i]
 
-    # ref gap → 不进入共识序列
+    # ref gap 
     if r == "-":
         consensus.append(None)
         continue
@@ -91,7 +87,6 @@ for i in range(aln_len):
         consensus.append(base)
 
 # ----------------------
-# 根据共识计算 start / end
 # ----------------------
 covered_coords = [
     ref_coord[i]
@@ -109,7 +104,6 @@ region = f"{start}-{end}"
 out_fa = f"{output}.{region}.fa"
 
 # ----------------------
-# 生成最终序列（去掉 ref gap）
 # ----------------------
 final_seq = [
     b for b in consensus
@@ -119,7 +113,6 @@ final_seq = [
 final_seq = "".join(final_seq)
 
 # ----------------------
-# 输出 FASTA
 # ----------------------
 with open(out_fa, "w") as out:
     out.write(f">{output}.{region}\n")
