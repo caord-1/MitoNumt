@@ -8,7 +8,6 @@ out = sys.argv[3]
 
 records = list(SeqIO.parse(aln, "fasta"))
 
-# 找到 reference
 ref = None
 for r in records:
     if r.id == ref_name:
@@ -18,7 +17,6 @@ for r in records:
 if ref is None:
     sys.exit("Reference not found")
 
-# 找到要保留的列
 keep_cols = [i for i,b in enumerate(ref) if b != "-"]
 
 with open(out, "w") as fw:
