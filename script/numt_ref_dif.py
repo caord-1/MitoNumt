@@ -57,7 +57,6 @@ def main(numt_fa, ref_fa, prefix):
             if r != "-":
                 ref_pos += 1
 
-            # gap 不参与差异统计
             if r == "-" or n == "-":
                 continue
 
@@ -80,7 +79,6 @@ def main(numt_fa, ref_fa, prefix):
         f.write("Ref_pos\tRef_base\t" + "\t".join(numt_ids) + "\n")
 
         for pos in sorted(diff_matrix):
-            # 若所有 numt 都为空，跳过
             if not diff_matrix[pos]:
                 continue
 
