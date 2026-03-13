@@ -3,7 +3,6 @@ import pysam
 import argparse
 
 # -----------------------------
-# 反向互补
 # -----------------------------
 COMP = str.maketrans("ACGTacgtNn", "TGCAtgcaNn")
 
@@ -12,7 +11,6 @@ def revcomp(seq):
 
 
 # -----------------------------
-# 计算 aligned length
 # -----------------------------
 def aligned_length(aln):
     length = 0
@@ -23,7 +21,6 @@ def aligned_length(aln):
 
 
 # -----------------------------
-# 主程序
 # -----------------------------
 def main():
     parser = argparse.ArgumentParser(
@@ -87,7 +84,6 @@ def main():
 
         trimmed_seq = seq[left_clip: len(seq) - right_clip]
 
-        # 方向处理
         if args.direction == "neg":
             seq = revcomp(seq)
             trimmed_seq = revcomp(trimmed_seq)
