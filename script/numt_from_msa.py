@@ -7,7 +7,6 @@ import argparse
 from Bio import SeqIO
 
 # ----------------------
-# 参数解析
 # ----------------------
 
 parser = argparse.ArgumentParser(description="Detect NUMT sites from MSA")
@@ -45,7 +44,6 @@ out_filtered = f"{prefix}.numt.filtered.tsv"
 out_count = f"{prefix}.numt.count.tsv"
 
 # ----------------------
-# 读取比对
 # ----------------------
 
 seqs = {}
@@ -64,7 +62,6 @@ sample_names = [s for s in seqs if s not in (ref_name, target_name)]
 aln_len = len(ref)
 
 # ----------------------
-# ref坐标
 # ----------------------
 
 ref_pos = []
@@ -81,7 +78,6 @@ for b in ref:
 ref_length = pos
 
 # ----------------------
-# 匹配函数
 # ----------------------
 
 def ambiguous_match(a, b):
@@ -111,7 +107,6 @@ def flank_match(sample_seq, target_seq, idx):
     return left_ok or right_ok
 
 # ----------------------
-# Step1 原始检测
 # ----------------------
 
 with open(out_raw, "w") as out:
@@ -161,7 +156,6 @@ with open(out_raw, "w") as out:
             )
 
 # ----------------------
-# 读取 raw
 # ----------------------
 
 with open(out_raw) as f:
@@ -174,7 +168,6 @@ sample_start = 3
 filtered = copy.deepcopy(data)
 
 # ----------------------
-# Step2 terminal del block 过滤
 # ----------------------
 
 for col in range(sample_start, len(header)):
@@ -211,7 +204,6 @@ for col in range(sample_start, len(header)):
         i += 1
 
 # ----------------------
-# 删除全0位点
 # ----------------------
 
 filtered = [
@@ -220,7 +212,6 @@ filtered = [
 ]
 
 # ----------------------
-# Step3 去除孤立1
 # ----------------------
 
 for col in range(sample_start, len(header)):
@@ -237,7 +228,6 @@ for col in range(sample_start, len(header)):
             filtered[i][col] = "0"
 
 # ----------------------
-# Step4 删除虚假2位点block
 # ----------------------
 
 for col in range(sample_start, len(header)):
@@ -269,7 +259,6 @@ for col in range(sample_start, len(header)):
         i += 1
 
 # ----------------------
-# 输出 filtered
 # ----------------------
 
 with open(out_filtered, "w") as out:
@@ -280,7 +269,6 @@ with open(out_filtered, "w") as out:
         out.write("\t".join(r) + "\n")
 
 # ----------------------
-# 统计
 # ----------------------
 
 counts = {s: 0 for s in sample_names}
