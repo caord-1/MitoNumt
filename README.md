@@ -128,7 +128,7 @@ The long reads obtained using the extension strategy can also be processed with 
 
 **Final output:**
 
-**.numt.2597-4082.fa** 2597-4082 is the start-end at True_ref_mt.fa
+** *.numt.2597-4082.fa** :2597-4082 is the start-end at True_ref_mt.fa
 
 Perform 4-6 operations on each small segment, and this will result in numerous numt sequences.
 
@@ -140,7 +140,7 @@ Perform 4-6 operations on each small segment, and this will result in numerous n
 
 we will get two file  prefix.diff_matrix.tsv  prefix.summary.tsv
 
-Delete the numt sequences with a difference rate less than 0.01, and then remove the duplicate numt sequences.
+Delete the numt sequences with a difference rate less than 0.01 and  fewer than 10 variant sites, and then remove the duplicate numt sequences.
 	
 **Step 4. Check the NUMT base in MT sequence**
 
@@ -151,6 +151,11 @@ mafft --auto prefix.fa > prefix.mafft.fa
 python remove_ref_gap_columns.py prefix.mafft.fa ref_name prefix.mafft.no_gap.fa
 
 python ./script/numt_from_msa.py prefix.mafft.no_gap.fa True_ref.mt True.numt final
+
+we will get three file     
+**prefix.numt.filtered.tsv**：The specific locations of NUMT contamination sites in each mitochondrion after filtration.
+**prefix.numt.count.tsv**：The statistics of the number of NUMT contamination sites in each mitochondrion after filtration.
+**prefix.numt.tsv**: The specific locations of NUMT contamination sites in each mitochondrion
 
 
 
