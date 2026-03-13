@@ -51,11 +51,11 @@ The resulting PAF file is then inspected to extract nuclear regions showing sign
 
 2.2 Extraction of reference NUMT regions
 
-*Strategy 1*: Extended flanking regions (recommended for detecting complete or near-complete NUMTs)
+*Extension strategy*: recommended for detecting complete or near-complete NUMTs
 
 To get potentially full-length NUMTs, the candidate NUMT region is extended by 2 kb upstream and downstream from the alignment coordinates:
    
-	  samtools faidx ./ref_genomic.fna CM101310.1:68556902-685561280 > CM101310.1.68556902-68561280.fa
+	samtools faidx ./ref_genomic.fna CM101310.1:68556902-685561280 > CM101310.1.68556902-68561280.fa
 
 2.2.1 Retrieval of NUMT-associated HiFi reads
 
@@ -90,7 +90,7 @@ such as:
 
 generate the complete.numt.fa
 
-*Strategy 2*: No extension (recommended for rapid detection of more none-complete NUMTs)
+*Non-extension strategy*: recommended for rapid detection of more incomplete NUMTs
 
 2.2.1 For rapid screening of short NUMTs, only the aligned region is extracted without flanking extension:
  
@@ -98,7 +98,7 @@ generate the complete.numt.fa
 
 2.2.2 Retrieval of NUMT-associated HiFi reads
 
-     minimap2 -t 16 --secondary=no -ax map-hifi ./CM101310.1.68558902-68559280.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o numt.reads.HiFiMapped.bam
+   minimap2 -t 16 --secondary=no -ax map-hifi ./CM101310.1.68558902-68559280.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o numt.reads.HiFiMapped.bam
    
 	 samtools sort -@ 16 -o numt.reads.HiFiMapped.sorted.bam numt.reads.HiFiMapped.bam
    
@@ -110,13 +110,14 @@ generate the complete.numt.fa
 
    This step generates two FASTA files:
 
-*.numt.high98.full.fa — full-length reads
+*.numt.high98.full.fa — full-length HIFI reads
 
 *.numt.high98.trim.fa — trimmed high-identity regions
 
-2.2.3 Consensus NUMT sequence reconstruction**
+**Step 3. Consensus NUMT sequence reconstruction**
 
 The trimmed NUMT reads are combined with the mitochondrial reference and aligned
+The long reads obtained using the extension strategy can also be processed with this script, provided that the portions aligned to the nuclear genome are trimmed.
    
 	 cat True_ref_mt.fa CM101310.1.68558902-68559280.numt.high98.trim.fa > CM101310.1.68558902-68559280.numt.high98.trim.mt.fa
 
@@ -131,7 +132,7 @@ The trimmed NUMT reads are combined with the mitochondrial reference and aligned
 
 Perform 4-6 operations on each small segment, and this will result in numerous numt sequences.
 
-2.2.4  Collect all the information of the numt sequences**
+ Collect all the information of the numt sequences**
 
     cat *.numt.* complete.numt.fa > numts.fa
 
@@ -139,9 +140,9 @@ Perform 4-6 operations on each small segment, and this will result in numerous n
 
 we will get two file  prefix.diff_matrix.tsv  prefix.summary.tsv
 
-    Delete the numt sequences with a difference rate less than 0.01, and then remove the duplicate numt sequences.
+Delete the numt sequences with a difference rate less than 0.01, and then remove the duplicate numt sequences.
 	
-**Step 3. Check the NUMT base in MT sequence**
+**Step 4. Check the NUMT base in MT sequence**
 
 cat all_mt_sequence True_ref.mt.fa complete.numt.fa > prefix.fa
 
