@@ -37,7 +37,6 @@ def find_best_pos(seq, seed, min_ratio):
 def main():
     args = parse_args()
 
-    # 读取参考序列
     ref_record = next(SeqIO.parse(args.ref, "fasta"))
     ref_seq = str(ref_record.seq)
 
@@ -56,14 +55,14 @@ def main():
             else:
                 pos = find_best_pos(seq, seed, args.min_ratio)
                 if pos == -1:
-                    print(f"⚠️ {rec.id}: 无法定位 ref 起点，保持原序列")
+                    print(f"⚠️ {rec.id}: 无法定位 ref 起点，保持原序列.Reference start position could not be identified; the original sequence was retained")
                     new_seq = seq
                 else:
                     new_seq = seq[pos:] + seq[:pos]
 
             fw.write(f">{rec.id}\n{new_seq}\n")
 
-    print("✔️ 已完成重环化:", args.out)
+    print("✔️ 已完成重环化.Circularization completed successfully:", args.out)
 
 if __name__ == "__main__":
     main()
