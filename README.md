@@ -5,7 +5,7 @@ This pipeline provides a practical and reproducible workflow to accurately get t
 
   ![fig](numt_schematic_diagram.png)
 
-requirements
+*Requirements*
 
 **python3 minimap2 samtools mafft igv**
 
