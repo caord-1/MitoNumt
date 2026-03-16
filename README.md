@@ -3,6 +3,8 @@ Overview
 
 This pipeline provides a practical and reproducible workflow to accurately get true mitochondrial (mtDNA) sequences and all NUMTs from PacBio HiFi sequencing data.
 
+  ![fig](numt.png)
+
 requirements
 
 **python3 minimap2 samtools mafft igv**
