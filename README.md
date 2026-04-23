@@ -146,13 +146,13 @@ Delete the numt sequences with a difference rate less than 0.01 and  fewer than 
 	
 **Step 4. Check the NUMT base in MT sequence**
 
-cat all_mt_sequence True_ref.mt.fa complete.numt.fa > prefix.fa
+    cat all_mt_sequence True_ref.mt.fa complete.numt.fa > prefix.fa
 
-mafft --auto prefix.fa > prefix.mafft.fa
+    mafft --auto prefix.fa > prefix.mafft.fa
 
-python remove_ref_gap_columns.py prefix.mafft.fa ref_name prefix.mafft.no_gap.fa
+    python remove_ref_gap_columns.py prefix.mafft.fa ref_name prefix.mafft.no_gap.fa
 
-python ./script/numt_from_msa.py prefix.mafft.no_gap.fa True_ref.mt True.numt final
+    python ./script/numt_from_msa.py prefix.mafft.no_gap.fa True_ref.mt True.numt final
 
 we will get three file     
 **prefix.numt.filtered.tsv**：The specific locations of NUMT contamination sites in each mitochondrion after filtration.
