@@ -1,7 +1,7 @@
 # MitoNumt
 Overview
 
-This pipeline provides a practical and reproducible workflow to accurately get true mitochondrial (mtDNA) sequences and all NUMTs from PacBio HiFi sequencing data.
+This pipeline provides a practical and reproducible workflow for recovering mitochondrial DNA (mtDNA) sequences, identifying both complete and incomplete NUMTs from PacBio HiFi sequencing data, and detecting NUMT-derived contamination in the assembled mitochondrial genome.
 
   ![fig](numt_schematic_diagram.png)
 
@@ -92,7 +92,7 @@ such as:
 
 generate the complete.numt.fa
 
-*Non-extension strategy*: recommended for rapid detection of more incomplete NUMTs
+*Non-extension strategy*: recommended for rapid detection of incomplete NUMTs
 
 2.2.1 For rapid screening of short NUMTs, only the aligned region is extracted without flanking extension:
  
