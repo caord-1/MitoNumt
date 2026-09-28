@@ -1,4 +1,4 @@
-# MitoNumt
+<img width="91" height="25" alt="image" src="https://github.com/user-attachments/assets/c27f5ddc-7e50-42e3-8eca-aa78d2bc0208" /># MitoNumt
 Overview
 
 This pipeline provides a practical and reproducible workflow for recovering mitochondrial DNA (mtDNA) sequences, identifying both complete and incomplete NUMTs from PacBio HiFi sequencing data, and detecting NUMT-derived contamination in the assembled mitochondrial genome.
@@ -31,9 +31,12 @@ The sorted BAM file can be visualized in IGV to manually inspect read alignments
 
 Selection criteria:
 
-Priority is given to HiFi reads spanning the entire MT region, including extended flanks when applicable.
+Priority is given to HiFi reads spanning the entire MT region. Reads with higher alignment rate and continuity are preferred.
 
-Reads with higher alignment rate and continuity are preferred. such as SRR28532995.4886972, SRR28532995.296568 ...
+Black arrows represent the recommended reads
+  <img width="1200" height="690" alt="image" src="https://github.com/user-attachments/assets/21e99e2d-cc5c-4a98-bb74-0d4d44a2a72a" />
+
+Sometimes the selected ref mt also contains contaminated regions. The criteria for selecting reads are the same, but there is a slight difference in the mapping rate part.such as SRR28532995.4886972, SRR28532995.296568 ...
 
   <img width="1129" height="563" alt="image" src="https://github.com/user-attachments/assets/02f844e1-36c8-4685-a4c6-ffd3f642767c" />
 
@@ -49,7 +52,8 @@ Next, we will compare the selected 3-4 reads with the reference sequence, and th
 
 The resulting PAF file is then inspected to extract nuclear regions showing significant homology to the mitochondrial genome, which are considered putative NUMT loci.
 
-   <img width="1667" height="197" alt="image" src="https://github.com/user-attachments/assets/bb012dc2-2b8c-48c7-a393-0f418c9d0ff8" />
+   <img width="1035" height="594" alt="image" src="https://github.com/user-attachments/assets/88e99e88-272d-454a-a149-350ca9079fb7" />
+
 
 2.2 Extraction of reference NUMT regions
 
@@ -57,11 +61,11 @@ The resulting PAF file is then inspected to extract nuclear regions showing sign
 
 To get potentially full-length NUMTs, the candidate NUMT region is extended by 2 kb upstream and downstream from the alignment coordinates:
    
-	samtools faidx ./ref_genomic.fna CM101310.1:68556902-685561280 > CM101310.1.68556902-68561280.fa
+	samtools faidx ./ref_genomic.fna LG15:5456396-5715150 > LG15:5456396-5715150.fa
 
 2.2.1 Retrieval of NUMT-associated HiFi reads
 
-    minimap2 -t 16 --secondary=no -ax map-hifi ./CM101310.1.68556902-68561280.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o numt.reads.HiFiMapped.bam
+    minimap2 -t 16 --secondary=no -ax map-hifi ./LG15:5456396-5715150.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o numt.reads.HiFiMapped.bam
    
     samtools sort -@ 16 -o numt.reads.HiFiMapped.sorted.bam numt.reads.HiFiMapped.bam
    
@@ -78,6 +82,8 @@ Priority is given to HiFi reads spanning the entire NUMT region, including exten
 Reads with higher alignment rate and continuity are preferred.
 
 such as:
+   
+   <img width="1081" height="252" alt="image" src="https://github.com/user-attachments/assets/6eec23a2-55fa-4c03-baef-1b9787d286c0" />
 
 
    <img width="765" height="314" alt="image" src="https://github.com/user-attachments/assets/e4aea820-d1d5-42f1-96ef-a4a5b969bd47" />
