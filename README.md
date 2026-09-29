@@ -59,10 +59,11 @@ The resulting PAF file is then inspected to extract nuclear regions showing sign
 
    <img width="1034" height="673" alt="image" src="https://github.com/user-attachments/assets/40142038-4a1b-4d96-befb-4ce1051c1533" />
 
-2.2 Extraction of reference NUMT regions
+
+Extraction of reference NUMT regions
 
 
-***Extension strategy***: recommended for detecting complete or near-complete NUMTs
+2.2 ***Extension strategy***: recommended for detecting complete or near-complete NUMTs
 
 To get potentially full-length NUMTs, the candidate NUMT region is extended by 2 kb upstream and downstream from the alignment coordinates:
    
@@ -104,9 +105,9 @@ such as:
 generate the complete.numt.fa
 
 
-***Non-extension strategy***: recommended for rapid detection of incomplete NUMTs
+2.3 ***Non-extension strategy***: recommended for rapid detection of incomplete NUMTs
 
-2.2.1 For rapid screening of short NUMTs, only the each aligned region is extracted without flanking extension:
+2.3.1 For rapid screening of short NUMTs, only the each aligned region is extracted without flanking extension:
 
 Replace '+' with 'pos' and '-' with 'neg' in column 5 of the PAF file. Select regions where column 11 is greater than 150.
 
@@ -114,7 +115,7 @@ Replace '+' with 'pos' and '-' with 'neg' in column 5 of the PAF file. Select re
 
     samtools faidx ./ref_genomic.fna CM109591.1:68539524-68540092 > CM109591.1:68539524-68540092.fa
 
-2.2.2 Retrieval of NUMT-associated HiFi reads
+2.3.2 Retrieval of NUMT-associated HiFi reads
 
      minimap2 -t 16 --secondary=no -ax map-hifi ./CM109591.1:68539524-68540092.fa ./HIFI_subreads.fastq.gz | samtools view -@ 16 -b -F4 -F 0x800 -o CM109591.1:68539524-68540092.reads.HiFiMapped.bam
    
@@ -146,7 +147,7 @@ The long reads obtained using the extension strategy can also be processed with 
 
 **prefix.numt.2597-4082.fa** : This is a incomplete numt sequence. 2597-4082 is the start-end of NUMT at True_ref_mt.fa
 
-Perform 2.2-3 operations on each small segment, and this will result in numerous numt sequences.
+Perform 2.3-3 operations on each small segment, and this will result in numerous numt sequences.
 
  Collect all the information of the numt sequences**
 
@@ -154,9 +155,12 @@ Perform 2.2-3 operations on each small segment, and this will result in numerous
 
     python ./script/numt_ref_dif.py -n numts.fa -r ../Ture_ref.mt.fa -o prefix
 
-we will get two file ***prefix.diff_matrix.tsv*** and ***prefix.summary.tsv***
+	we will get two file ***prefix.diff_matrix.tsv*** and ***prefix.summary.tsv***
 
-Delete the numt sequences with a difference rate less than 0.01 and  fewer than 10 variant sites, and then remove the duplicate numt sequences.
+	Delete the numt sequences with a difference rate less than 0.01 and  fewer than 10 variant sites, and then remove the duplicate numt sequences.
+
+**We provide a batch-processing script (batch_select_incomplete_numt.sh) that allows users to rapidly detect incomplete NUMTs at steps 2.3-3 by simply modifying the input file paths in the script**.
+
 	
 **Step 4. Check the NUMT base in MT sequence**
 
