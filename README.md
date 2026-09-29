@@ -108,6 +108,8 @@ generate the complete.numt.fa
 
 2.2.1 For rapid screening of short NUMTs, only the each aligned region is extracted without flanking extension:
 
+Replace '+' with 'pos' and '-' with 'neg' in column 5 of the PAF file. Select regions where column 11 is greater than 150.
+
   <img width="1037" height="129" alt="image" src="https://github.com/user-attachments/assets/7aae8f7b-9c60-4a62-8fde-e8b0eb821c1d" />
 
     samtools faidx ./ref_genomic.fna CM109591.1:68539524-68540092 > CM109591.1:68539524-68540092.fa
