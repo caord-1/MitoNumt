@@ -167,6 +167,7 @@ Perform 2.3-3 operations on each small segment, and this will result in numerous
 Run the following command for each NUMT sequence.
 
     cat all_mt_sequence True_ref.mt.fa numt.fa > prefix.fa
+	# First, all mt_sequences to be analyzed (all_mt_sequence) can be combined with the True_ref.mt.fa. then standardize the start positions of all sequences in the combined file. Use circularized.py to align their start positions to True_ref.mt.fa. If orientations are already standardized, proceed to the next step.
 
     mafft --auto prefix.fa > prefix.mafft.fa
 
