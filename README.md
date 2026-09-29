@@ -168,9 +168,12 @@ Run the following command for each NUMT sequence.
 
     python ./script/numt_from_msa.py prefix.mafft.no_gap.fa True_ref.mt_name numt_name prefix 
 
-    The parameters used for NUMT site detection (numt_base_from_msa.py) were: flank = 150, min_ratio = 1, min_sites = 150, F_region = 1500, R_region = 1500, and min_del = 10
+The parameters used for NUMT site detection (numt_from_msa.py) were: flank = 150, min_ratio = 1, min_sites = 150, F_region = 1500, R_region = 1500, and min_del = 10
+
 flank: Length of the flanking sequence used for comparison on each side of the candidate NUMT site; 
+
 min_ratio: Minimum flanking sequence matching ratio required to classify a site as NUMT-derived; min_sites: 
+
 min_sites: Minimum number of aligned bases required for flanking sequence comparison.
 	
 flank, min_ratio, and min_sites are the primary parameters used to determine whether a candidate site is supported as a NUMT-derived site based on the similarity of its flanking sequences. a flank length of 150 bp provides a practical default for identifying linked NUMT-derived sites in typical Illumina datasets. For datasets generated using longer reads, a larger flank value may improve specificity, whereas shorter reads may benefit from a smaller value to maintain detection sensitivity.
