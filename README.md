@@ -152,7 +152,7 @@ Perform 2.2-3 operations on each small segment, and this will result in numerous
 
     python ./script/numt_ref_dif.py -n numts.fa -r ../Ture_ref.mt.fa -o prefix
 
-we will get two file  prefix.diff_matrix.tsv  prefix.summary.tsv
+we will get two file ***prefix.diff_matrix.tsv*** and ***prefix.summary.tsv***
 
 Delete the numt sequences with a difference rate less than 0.01 and  fewer than 10 variant sites, and then remove the duplicate numt sequences.
 	
