@@ -179,7 +179,9 @@ The parameters used for NUMT site detection (numt_from_msa.py) were: flank = 150
 flank, min_ratio, and min_sites are the primary parameters used to determine whether a candidate site is supported as a NUMT-derived site based on the similarity of its flanking sequences. a flank length of 150 bp provides a practical default for identifying linked NUMT-derived sites in typical Illumina datasets. For datasets generated using longer reads, a larger flank value may improve specificity, whereas shorter reads may benefit from a smaller value to maintain detection sensitivity.
 	
 **F_region**: Length of the 5’ terminal region in which long contiguous deletion blocks are excluded to reduce false positives caused by terminal length variation (for example: the D-loop region). 
+
 **R_region**: Length of the 3’ terminal region in which long contiguous deletion blocks are excluded to reduce false positives caused by terminal length variation. 
+
 **min_del**: Minimum length of a contiguous deletion block to be removed from the defined terminal regions.
 	
 F_region, R_region, and min_del function together to reduce false-positive detections caused by long contiguous deletion blocks. Here, min_del specifies the minimum length of a contiguous deletion block, while F_region and R_region define the 5′ and 3′ terminal regions in which such deletion blocks are excluded from NUMT detection. By default, deletion blocks of at least 10 bp located within the first or last 1,500 bp of the mitochondrial alignment are not considered NUMT-derived sites. 
