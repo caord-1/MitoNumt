@@ -1,10 +1,13 @@
 
+
 #!/bin/bash
 
-    ref_genome="GCA_048603155.1_ASM4860315v1_genomic.fna"
-    ref_mt="Panthera_uncia.complete.mt"
+    ref_genome="ref_genomic.fna"
+    ref_mt="ref_mt"
+    SRR="HIFI_subreads.fastq.gz"
+    species="species"
 
-minimap2 -x asm5 ../${ref_mt}.fa ../${ref_genome} > ${ref_mt}-${ref_genome}.paf
+minimap2 -x asm5 ./${ref_mt}.fa ./${ref_genome} > ${ref_mt}-${ref_genome}.paf
 
 awk 'BEGIN{OFS="\t"}
 $11 > 150 {
@@ -21,7 +24,6 @@ $11 > 150 {
 
 while read sample st ed dir; do
 
-    SRR="SRR31392934_subreads.fastq.gz"
     prefix="${sample}.${st}-${ed}"
     bam="${prefix}.reads.HiFiMapped.bam"
     sbam="${prefix}.reads.HiFiMapped.sorted.bam"
@@ -32,11 +34,11 @@ while read sample st ed dir; do
     if [ ! -s "$bam" ]; then
         echo "[INFO] BAM 不存在，开始比对"
 
-        samtools faidx ../${ref_genome} \
+        samtools faidx ./${ref_genome} \
             ${sample}:${st}-${ed} > ${prefix}.fa
 
         minimap2 -t 16 --secondary=no -ax map-hifi \
-            ${prefix}.fa ../${SRR} \
+            ${prefix}.fa ./${SRR} \
         | samtools view -@ 16 -b -F4 -F 0x800 \
         > "$bam"
     else
@@ -54,7 +56,7 @@ while read sample st ed dir; do
     fi
 
     # ---------- 4. 后续 NUMT 分析 ----------
-    python ../../script/extract_high_identity_reads.py \
+    python ./script/extract_high_identity_reads.py \
         -b "$sbam" \
         -o ${prefix}.numt.high98 \
         -d "$dir"
@@ -63,27 +65,22 @@ while read sample st ed dir; do
         ${prefix}.numt.high98.trim.fa \
         > ${prefix}.numt.high98.trim.50.fa
 
-    cat ${prefix}.numt.high98.trim.50.fa ../${ref_mt}.fa \
+    cat ${prefix}.numt.high98.trim.50.fa ./${ref_mt}.fa \
         > ${prefix}.numt.high98.trim-numt-mt.mt.fa
 
     mafft --auto \
         ${prefix}.numt.high98.trim-numt-mt.mt.fa \
         > ${prefix}.numt.high98.trim-numt-mt.mt.mafft.fa
 
-    python ../../script/numt_consensus_from_msa.py \
+    python ./script/numt_consensus_from_msa.py \
         ${prefix}.numt.high98.trim-numt-mt.mt.mafft.fa \
         ${ref_mt} \
-        Panthera_uncia.numt
+        ${species}.numt
 
 done < numts.list
 
-cat Panthera_uncia.numt.* > numts.fa
+cat ${species}.numt* > numts.fa
 
-python ../../script/numt_ref_dif.py -n numts.fa -r ../${ref_mt}.fa -o unica
+python ./script/numt_ref_dif.py -n numts.fa -r ./${ref_mt}.fa -o ${species}
 
-while read sample; do
-   cat ../${sample}.fa ../../49.ncbi.sequence.mt.numt.re_circularized_KJ866876.1.mafft.4.new.mafft.fas > ${sample}.49.ncbi.sequence.fa
-   mafft --auto ${sample}.49.ncbi.sequence.fa > ${sample}.49.ncbi.sequence.mafft.fa
-   python /public/home/caord/wgs/genome/numt/script/remove_ref_gap_columns.py ${sample}.49.ncbi.sequence.mafft.fa seq1 ${sample}.49.ncbi.sequence.mafft.no_gap.fa
-   python /public/home/caord/wgs/genome/numt/script/numt_base_from_msa.py ${sample}.49.ncbi.sequence.mafft.no_gap.fa seq1 ${sample} ${sample}
-done < numts.list
+
