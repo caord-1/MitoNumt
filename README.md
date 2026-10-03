@@ -173,7 +173,7 @@ Run the following command for each NUMT sequence.
 
     python remove_ref_gap_columns.py prefix.mafft.fa ref_name prefix.mafft.no_gap.fa
 
-    python ./script/numt_from_msa.py prefix.mafft.no_gap.fa True_ref.mt_name numt_name prefix 
+    python ./script/numt_base_from_msa.py prefix.mafft.no_gap.fa True_ref.mt_name numt_name prefix 
 
 The parameters used for NUMT site detection (numt_from_msa.py) were: flank = 150, min_ratio = 1, min_sites = 150, F_region = 1500, R_region = 1500, and min_del = 10
 
