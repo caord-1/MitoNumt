@@ -85,5 +85,5 @@ while read sample; do
    cat ../${sample}.fa ../../49.ncbi.sequence.mt.numt.re_circularized_KJ866876.1.mafft.4.new.mafft.fas > ${sample}.49.ncbi.sequence.fa
    mafft --auto ${sample}.49.ncbi.sequence.fa > ${sample}.49.ncbi.sequence.mafft.fa
    python /public/home/caord/wgs/genome/numt/script/remove_ref_gap_columns.py ${sample}.49.ncbi.sequence.mafft.fa seq1 ${sample}.49.ncbi.sequence.mafft.no_gap.fa
-   python /public/home/caord/wgs/genome/numt/script/numt_from_msa.py ${sample}.49.ncbi.sequence.mafft.no_gap.fa seq1 ${sample} ${sample}
+   python /public/home/caord/wgs/genome/numt/script/numt_base_from_msa.py ${sample}.49.ncbi.sequence.mafft.no_gap.fa seq1 ${sample} ${sample}
 done < numts.list
