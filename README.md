@@ -2,6 +2,7 @@
 Overview
 
 This pipeline provides a practical and reproducible workflow for recovering mitochondrial DNA (mtDNA) sequences, identifying both complete and incomplete NUMTs from PacBio HiFi sequencing data, and detecting NUMT-derived contamination in the assembled mitochondrial genome. 
+
 If you find this pipeline useful, please cite: Cao, R., T. Xin, Y. Hao, and Y. Hu. 2026. “ MitoNumt: A Workflow for Recovering Mitochondrial Genomes From Long-Read Data and Detecting NUMT Contamination in Mitochondrial Genome Assemblies.” Molecular Ecology Resources 26, no. 7: e70211. https://doi.org/10.1111/1755-0998.70211
 
   ![fig](numt_schematic_diagram.png)
